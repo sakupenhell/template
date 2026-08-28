@@ -25,7 +25,7 @@ services:
       - 8000:8000
     volumes:
       - .:/app
-      - /app/.venv
+      - venv_data:/app/.venv
     depends_on:
       postgres:
         condition: service_healthy
@@ -33,3 +33,4 @@ services:
 
 volumes:
   postgres_data:
+  venv_data:
