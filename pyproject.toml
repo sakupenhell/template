@@ -11,3 +11,56 @@ dependencies = [
     "pydantic-settings>=2.15.0",
     "robyn>=0.88.0",
 ]
+
+[tool.alembic]
+script_location = "src/database/migrations"
+prepend_sys_path = ["."]
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.1",
+    "pre-commit>=4.6.2",
+    "ruff>=0.16.5",
+]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 88
+exclude = [".git", ".mypy_cache", ".ruff_cache", ".venv"]
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+    "BLE",
+    "C90",
+    "E",
+    "F",
+    "G",
+    "I",
+    "ICN",
+    "ISC",
+    "PLE",
+    "Q",
+    "RUF006",
+    "RUF100",
+    "T10",
+    "T20",
+    "TID",
+    "UP",
+    "W",
+]
+ignore = ["ISC001"]
+fixable = ["ALL"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.mypy]
+python_version = "3.14"
+strict = true
+plugins = ["pydantic.mypy"]
+
+
+[[tool.mypy.overrides]]
+module = "src.database.migrations.*"
+ignore_errors = true
