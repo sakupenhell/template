@@ -13,7 +13,7 @@ class AppSettings(BaseModel):
 
 class DatabaseSettings(BaseModel):
     name: str = "postgres"
-    user: str = "posttgres"
+    user: str = "postgres"
     password: str = "postgres"
     host: str = "postgres"
     port: int = 5432
@@ -28,7 +28,7 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
         extra="ignore",
-        env_prefix="_",
+        env_nested_delimiter="_",
     )
     app: AppSettings = Field(default_factory=AppSettings)
     db: DatabaseSettings = Field(default_factory=DatabaseSettings)
