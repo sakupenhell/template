@@ -16,6 +16,20 @@ services:
       timeout: 3s
       retries: 3
 
+  redis:
+    container_name: redis
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   backend:
     container_name: backend
     build: .
@@ -29,8 +43,25 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_healthy
 
+  taskiq-worker:
+    container_name: taskiq_worker
+    build: .
+    command: taskiq worker src.infrastructure.adapters.taskiq.broker:broker
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - venv_data:/app/.venv
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
 volumes:
   postgres_data:
+  redis_data:
   venv_data:
