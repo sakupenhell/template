@@ -8,7 +8,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from src.config import settings
-from src.database.metadata import metadata
+from src.infrastructure.database.metadata import metadata
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.db.url)
