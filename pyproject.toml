@@ -9,7 +9,10 @@ dependencies = [
     "asyncpg>=0.31.0",
     "pydantic>=2.13.4",
     "pydantic-settings>=2.15.0",
+    "redis>=8.1.0",
     "robyn>=0.88.0",
+    "taskiq>=0.12.6",
+    "taskiq-redis>=1.2.3",
 ]
 
 [tool.alembic]

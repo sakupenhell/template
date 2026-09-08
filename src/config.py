@@ -23,15 +23,41 @@ class DatabaseSettings(BaseModel):
         return f"postgresql+asyncpg://{self.user}:{self.password}@{self.host}:{self.port}/{self.name}"
 
 
+class RedisSettings(BaseModel):
+    host: str = "redis"
+    port: int = 6379
+
+    @property
+    def url(self) -> str:
+        return f"redis://{self.host}:{self.port}"
+
+
+class TaskiqSettings(BaseModel):
+    host: str = "redis"
+    port: int = 6379
+    broker_db: int = 0
+    result_backend_db: int = 1
+
+    @property
+    def broker_url(self) -> str:
+        return f"redis://{self.host}:{self.port}/{self.broker_db}"
+
+    @property
+    def result_backend_url(self) -> str:
+        return f"redis://{self.host}:{self.port}/{self.result_backend_db}"
+
+
 class Settings(BaseSettings):
     model_config: ClassVar[SettingsConfigDict] = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
         extra="ignore",
-        env_nested_delimiter="_",
+        env_nested_delimiter="__",
     )
     app: AppSettings = Field(default_factory=AppSettings)
     db: DatabaseSettings = Field(default_factory=DatabaseSettings)
+    redis: RedisSettings = Field(default_factory=RedisSettings)
+    taskiq: TaskiqSettings = Field(default_factory=TaskiqSettings)
 
 
 settings: Settings = Settings()
