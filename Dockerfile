@@ -38,4 +38,4 @@ EXPOSE 8000
 
 USER 10001:10001
 
-CMD ["python", "-m", "robyn", "main.py"]
+CMD ["python", "-m", "robyn", "main.py", "--fast"]

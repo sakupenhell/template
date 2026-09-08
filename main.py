@@ -16,4 +16,4 @@ app = Robyn(
 
 
 if __name__ == "__main__":
-    app.start()
+    app.start(_check_port=False)
