@@ -13,7 +13,7 @@ class DatabaseProvider(Provider):
 
     @provide(scope=Scope.APP)
     async def engine(self) -> AsyncIterator[AsyncEngine]:
-        engine = create_async_engine(
+        engine: AsyncEngine = create_async_engine(
             url=self._config.url,
             echo=False,
             pool_size=20,
