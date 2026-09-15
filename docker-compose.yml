@@ -46,8 +46,8 @@ services:
       redis:
         condition: service_healthy
 
-  taskiq-worker:
-    container_name: taskiq_worker
+  taskiq:
+    container_name: taskiq
     build: .
     command: taskiq worker src.infrastructure.adapters.taskiq.broker:broker
     env_file:

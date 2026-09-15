@@ -23,8 +23,8 @@ ENV PYTHONUNBUFFERED=1 \
     VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH"
 
-RUN groupadd --system --gid 10001 appgroup && \
-    useradd --system --uid 10001 --gid appgroup --no-create-home --shell /sbin/nologin appuser
+RUN groupadd --gid 1000 appgroup && \
+    useradd --uid 1000 --gid appgroup --no-create-home --shell /sbin/nologin appuser
 
 WORKDIR /app
 
@@ -36,6 +36,6 @@ RUN chown -R root:root .venv && \
 
 EXPOSE 8000
 
-USER 10001:10001
+USER 1000:1000
 
 CMD ["python", "-m", "robyn", "main.py", "--fast"]
