@@ -1,4 +1,4 @@
-FROM python:3.14-slim AS builder
+FROM python:3.12-slim AS builder
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -16,7 +16,7 @@ RUN uv venv /app/.venv && \
     uv sync --frozen --no-dev --no-install-project
 
 
-FROM python:3.14-slim
+FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -38,4 +38,4 @@ EXPOSE 8000
 
 USER 1000:1000
 
-CMD ["python", "-m", "robyn", "main.py", "--fast"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

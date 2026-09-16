@@ -39,7 +39,7 @@ services:
       - 8000:8000
     volumes:
       - .:/app
-      - venv_data:/app/.venv
+      - /app/.venv
     depends_on:
       postgres:
         condition: service_healthy
@@ -49,12 +49,12 @@ services:
   taskiq:
     container_name: taskiq
     build: .
-    command: taskiq worker src.infrastructure.adapters.taskiq.broker:broker
+    command: taskiq worker src.entrypoints.workers.worker:broker
     env_file:
       - .env
     volumes:
       - .:/app
-      - venv_data:/app/.venv
+      - /app/.venv
     depends_on:
       postgres:
         condition: service_healthy
@@ -64,4 +64,3 @@ services:
 volumes:
   postgres_data:
   redis_data:
-  venv_data:

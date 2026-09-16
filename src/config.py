@@ -1,8 +1,10 @@
-from typing import ClassVar
-
 from pydantic import BaseModel
 from pydantic.fields import Field
-from pydantic_settings.main import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from src.infrastructure.adapters.redis.config import RedisSettings
+from src.infrastructure.adapters.taskiq.config import TaskiqSettings
+from src.infrastructure.database.config import DatabaseSettings
 
 
 class AppSettings(BaseModel):
@@ -11,45 +13,8 @@ class AppSettings(BaseModel):
     description: str = ""
 
 
-class DatabaseSettings(BaseModel):
-    name: str = "postgres"
-    user: str = "postgres"
-    password: str = "postgres"
-    host: str = "postgres"
-    port: int = 5432
-
-    @property
-    def url(self) -> str:
-        return f"postgresql+asyncpg://{self.user}:{self.password}@{self.host}:{self.port}/{self.name}"
-
-
-class RedisSettings(BaseModel):
-    host: str = "redis"
-    port: int = 6379
-    max_connections: int = 20
-
-    @property
-    def url(self) -> str:
-        return f"redis://{self.host}:{self.port}"
-
-
-class TaskiqSettings(BaseModel):
-    host: str = "redis"
-    port: int = 6379
-    broker_db: int = 0
-    result_backend_db: int = 1
-
-    @property
-    def broker_url(self) -> str:
-        return f"redis://{self.host}:{self.port}/{self.broker_db}"
-
-    @property
-    def result_backend_url(self) -> str:
-        return f"redis://{self.host}:{self.port}/{self.result_backend_db}"
-
-
 class Settings(BaseSettings):
-    model_config: ClassVar[SettingsConfigDict] = SettingsConfigDict(
+    model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
         extra="ignore",

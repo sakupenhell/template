@@ -3,7 +3,7 @@ from collections.abc import AsyncIterator
 from dishka import Provider, Scope, provide
 from redis.asyncio import Redis
 
-from src.config import RedisSettings
+from src.infrastructure.adapters.redis.config import RedisSettings
 
 
 class RedisProvider(Provider):

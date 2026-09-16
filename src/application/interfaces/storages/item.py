@@ -1,0 +1,19 @@
+from typing import Protocol
+from uuid import UUID
+
+from src.application.dto.item import CreateItemDTO, UpdateItemDTO
+from src.domain.entities.item import Item
+
+
+class IItemStorage(Protocol):
+    async def fetch_by_id(self, *, input_id: UUID) -> Item | None: ...
+
+    async def fetch_list(self, *, limit: int, offset: int) -> list[Item]: ...
+
+    async def count(self) -> int: ...
+
+    async def create(self, *, input_dto: CreateItemDTO) -> Item: ...
+
+    async def update_by_id(self, *, input_id: UUID, input_dto: UpdateItemDTO) -> Item: ...
+
+    async def delete_by_id(self, *, input_id: UUID) -> None: ...

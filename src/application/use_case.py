@@ -1,17 +1,11 @@
-from typing import Protocol, TypeVar
-
-InputDTO = TypeVar("InputDTO", contravariant=True)
-OutputDTO = TypeVar("OutputDTO", covariant=True)
+from typing import Protocol
 
 
-class IUseCase(Protocol[InputDTO, OutputDTO]):
-    async def execute(self, *, input_dto: InputDTO) -> OutputDTO | None:
-        pass
+class IUseCase[InputDTO, OutputDTO](Protocol):
+    async def execute(self, *, input_dto: InputDTO) -> OutputDTO: ...
 
 
-class ICommand(IUseCase[InputDTO, OutputDTO], Protocol):
-    pass
+class ICommand[InputDTO, OutputDTO](IUseCase[InputDTO, OutputDTO], Protocol): ...
 
 
-class IQuery(IUseCase[InputDTO, OutputDTO], Protocol):
-    pass
+class IQuery[InputDTO, OutputDTO](IUseCase[InputDTO, OutputDTO], Protocol): ...

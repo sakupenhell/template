@@ -1,19 +1,11 @@
-from robyn import Robyn
-from robyn.openapi import OpenAPI, OpenAPIInfo
+import uvicorn
 
+from src.bootstrap.di.container import create_container
 from src.config import settings
+from src.entrypoints.http.bootstrap import create_app
 
-app = Robyn(
-    file_object=__file__,
-    openapi=OpenAPI(
-        info=OpenAPIInfo(
-            title=settings.app.title,
-            version=settings.app.version,
-            description=settings.app.description,
-        )
-    ),
-)
-
+container = create_container()
+app = create_app(settings, container)
 
 if __name__ == "__main__":
-    app.start(_check_port=False)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
